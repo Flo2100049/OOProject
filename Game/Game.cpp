@@ -10,7 +10,6 @@ char av, Day = 'M';            //Global metablhtes. -av deixnei thn omada tou pa
 int WIDTH, HEIGHT;             //Global metablhtes. -WIDTH einai to plato tou xarth kai -HEIGHT einai to upsos tou xarth.
 int  Alvamp, Alwere;           //Global metablhtes. -Alvamp deixnei to plhthos twn vampires kai -ALwere deixnei to plhthos twn werewolfs.
 
-
 void Pause() {                 //H sunarthsh Pause pou kaleitai otan to paixnidi einai se paush.
 	cout << "                         ##################################" << endl;
 	cout << "                         ######       GAME PAUSE      #####" << endl;
@@ -708,24 +707,6 @@ public:
 					cout << "PRESS (H) TO USE THE FILTRA " << "(!)" << endl;
 				cout << "FILTRA TO USE: " << Av.GetFiltra() << endl << endl;
 				cout << "PRESS (P) TO PAUSE THA GAME " << endl;
-
-				
-				for (Vampires* o : vampires) {
-					cout << "Vampires: ";
-					cout << "UGEIA: " << o->GetYgeia(o);
-					cout << " AMINA: " << o->GetAmina(o);
-					cout << " IATRIKO: " << o->GetIatriko(o);
-					cout << " DIANAMI: " << o->GetDinami(o) << endl;
-				}
-				
-				for (Werewolfs* o : werewolfs) {
-					cout << "Werewolfs: ";
-					cout << "UGEIA: " << o->GetYgeia(o);
-					cout << " AMINA: " << o->GetAmina(o);
-					cout << " IATRIKO: " << o->GetIatriko(o);
-					cout << " DIANAMI: " << o->GetDinami(o) << endl;
-				}
-
 
 				if (Alvamp == 0) {
 					playing = false;
