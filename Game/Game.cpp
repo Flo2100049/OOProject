@@ -6,24 +6,24 @@
 using namespace std;
 enum Direction  { STOP = 0, LEFT = 1, RIGHT = 2, UP = 3, DOWN = 4, UPLEFT = 5, UPRIGHT = 6, DOWNLEFT = 7, DOWNRIGHT = 8 };  //Για την τυχαια κινιση των vampires και werewolfs.
 
-char av, Day = 'M';            //Global μεταβλητες. -av δειχνει την ομαδα του παιχτει και -Day δειχει την μερα η την νυχτα.
-int WIDTH, HEIGHT;             //Global μεταβλητες. -WIDTH ειναι το πλατος του χαρτη και -HEIGHT ειναι το υψος του χαρτη.
-int  Alvamp, Alwere;           //Global μεταβλητες. -Alvamp δειχνει το πληθος των vampires και -Alwere δεινχει το πληθος των werewolfs.
+char av, Day = 'M';            //Global metablhtes. -av deixnei thn omada tou paikth kai -Day δειχνει την mera kai thn nuxta.
+int WIDTH, HEIGHT;             //Global metablhtes. -WIDTH einai to plato tou xar kai -HEIGHT einai to upsos tou xarth.
+int  Alvamp, Alwere;           //Global metablhtes. -Alvamp deixnei to plhthos twn vampires kai -ALwere deixnei to plhthos twn werewolfs.
 
 
-void Pause() {                 //Η συναρτηση Pause που καλειται οταν το παιχνιδι ειναι σε παυση.
+void Pause() {                 //H sunarthsh Pause pou kaleitai otan to paixnidi einai se paush.
 	cout << "                         ##################################" << endl;
 	cout << "                         ######       GAME PAUSE      #####" << endl;
 	cout << "                         ##################################" << endl << endl << endl;
 	cout << "-ALIVE WEREWOLFS: " << Alwere << endl;
 	cout << "-ALIVE VAMPIRES: " << Alvamp << endl;
 }
-void checkTeam(char c) {                                              //Συναρτηση για να τσεκαρει αν δινεται σωστη ομαδα για τον παιχτη.
+void checkTeam(char c) {                                              //Sunarthsh gia na tsekarei an dinetai swsth omada gia ton paikth.
 	if (c != 'W' && c != 'w' && c != 'V' && c != 'v') {
 		throw invalid_argument("Den dialekses kamia omada... \n");
 	}
 }
-void checkMap(int HEIGHT, int WIDTH) {                                //Συναρτηση για να τσεκαρει αν δινονται σωστες διαστασεις για τον χαρτη.
+void checkMap(int HEIGHT, int WIDTH) {                                //Sunarthsh gia na tsekarei an dinontai swstes diastaseis gia ton xarth.
 	if (HEIGHT <= 10) 
 		if (WIDTH <= 8) 
 		   throw invalid_argument("Mikres diastaseis pinaka... \n");
@@ -31,13 +31,13 @@ void checkMap(int HEIGHT, int WIDTH) {                                //Συναρτησ
 	if (HEIGHT >= 40 && WIDTH >= 100)
 		throw invalid_argument("Megales diastaseis pinaka... \n");
 }                          
-class Original             //Υπερκλαση απο την οποια κληρονομουν οι αλλες κλασεισ.    
+class Original             //Yperklash apo thn opoia klhronomoun oi alles klaseis.   
 {
 private:
-	int x, y;              //Σημεια μεσα στον χαρτη
+	int x, y;              //Shmeia mesa ston xarth.
 }; 
 
-class OBSTACLES: private Original {          //Κλαση για τα δεντρα και τα ποταμια.
+class OBSTACLES: private Original {          //Klash gia ta dentra kai ta potamia. 
 private:
 	int DentroX = NULL;            
 	int DentroY = NULL;
@@ -56,7 +56,7 @@ public:
 	int GetPotamiY() { return PotamiX; }
 };
 
-class Vampires : private Original            //Κλαση για τα Vampires.
+class Vampires : private Original            //Klash gia ta Vampires. 
 {
 private:
 	int x;
@@ -77,33 +77,33 @@ public:
 	int GetAmina(Vampires* v) {return v->amina;}
 	int GetIatriko(Vampires* v) {return v->iatriko;}
 	
-	void DamageAmina(Vampires* v, int i) {               //Σε περιπτωσςη που δεχθει επιθεση τοτε μειωνεται η αμυνα.
+	void DamageAmina(Vampires* v, int i) {               //Se periptwsh pou dexthei epithesh tote meiwnetai h amuna. 
 		for (int k = 0; k <= i; k++)
 			v->amina--;
 	}
-	void DamageUgeia(Vampires* v, int i) {               //Σε περιπτωσςη που δεχθει επιθεση και δεν υπαρχει αμυνα μειωνεται η υγεια.
+	void DamageUgeia(Vampires* v, int i) {               //Se periptwsh pou dexthei apithesh kai den uparxei amuna meiwnetai h ugeia.
 		for (int k = 0; k <= i; k++)
 			v->ugeia--;
 	}
-	void GiveIatriko(Vampires* v) {v->iatriko--;}        //Οταν βοηθαει καποιον συμπαικτη δινει ιατρικο
-	void TakeIatriko(Vampires* v) {v->ugeia++;}          //Οταν βοηθιεται απο καποιον συμπαικτη περνει υγεια.
+	void GiveIatriko(Vampires* v) {v->iatriko--;}        //Otan boithaei kapoion sumpaikth dinei iatriko.
+	void TakeIatriko(Vampires* v) {v->ugeia++;}          //Otan boithietai apo kapoion sumpaikth pernei ugeia.
 
-	void Lose(Vampires* v) {                             //Οταν χασει σταματαει η κινηση του κ εξαφανιζεται απο τον χαρτη.
+	void Lose(Vampires* v) {                             //Otan xasei stamataei h kinish tou kai eksafanizetai apo ton xarth.
 		v->drion = STOP;
 		v->x = 999;
 		v->y = 999;
 	}
 
 	////////////////// Πολυμορφισμος /////////////////////
-	void RandomDirection(Direction d, Vampires* V) {    // Οταν θελουμε να αλλαξουμε εμεις την κατευθηνση του για καποιον συγκεκριμενο λογο
+	void RandomDirection(Direction d, Vampires* V) {    //otan theloume na allaksoume emeis thn kateuthinsh tou  gia kapoion sugkekrimeno logo.
 		V->drion = d;
 	}
-	void RandomDirection(Vampires* V) {                 // Αλλαζει τυχαια η κατευθηνση του.
+	void RandomDirection(Vampires* V) {                 //Allazei tuxaia h kateuthinsh tou.
 		V->drion = (Direction)(rand() % 8 + 1);
 	}
 	//////////////////////////////////////////////////////
 
-	void RandomMovement(Vampires* V) {                  // Συναρτηση κινισης
+	void RandomMovement(Vampires* V) {                  //Sunarthsh kinishs.
 		int y = V->GetY(V);
 		int x = V->GetX(V);
 		if (y - 1 == 0 || y == 0)
@@ -180,7 +180,7 @@ public:
 	}
 	void DamageUgeia(Werewolfs* w, int i) { 
 		for (int k = 0; k <= i; k++)
-			w->amina--;
+			w->ugeia--;
 	}
 	void GiveIatriko(Werewolfs* w) { w->iatriko--; }
 	void TakeIatriko(Werewolfs* w) { w->ugeia++; }
@@ -197,7 +197,7 @@ public:
 		W->RandomMovement(W);
 	}
 	void RandomDirection(Werewolfs* W) {
-		W->drion = (Direction)(rand() % 4 + 1);           //Μεχρι 4 αφου οι werewolfs εχουν περιορισμενοι κινιση.
+		W->drion = (Direction)(rand() % 4 + 1);           //Mexri 4 afou oi werewolfs exoun periorismenoi kinish.
 	}
 	///////////////////////////////////////////////////////
 
@@ -245,37 +245,37 @@ public:
 	void GiveFiltro() {filtra--;}
 	void TakeFiltro() {filtra++; }
 
-	void Movement(char c) {            //Συναρτηση κινισης του δικου μας παικτη με βαση τα κουμπια που παταμε
+	void Movement(char c) {            //Sunarthsh kinishs tou dikou mas paikth me bash ta koumpia pou patame.
 		switch (c)
 		{
-		case 'p':           //Παυση
+		case 'p':           //Paush
 		case 'P':
 			system("cls");
 			Pause();
 			system("pause");
 			break;
 		case 'w':
-		case 'W':           //Πανω
+		case 'W':           //Panw
 			if (y - 1 >= 0)
 				y--;
 			break;
 		case 's':
-		case 'S':           //Κατω
+		case 'S':           //Katw
 			if (y < HEIGHT - 1)
 				y++;
 			break;
 		case 'a':
-		case 'A':          //Αριστερα
+		case 'A':          //Aristera
 			if (x - 1 > 0)
 				x--;
 			break;
 		case 'd':
-		case 'D':          //Δεξια
+		case 'D':          //Deksia
 			if (x < WIDTH - 2)
 				x++; 
 			break;
 		case 'h':
-		case 'H':          //Για να χρησιμοποιηση το φιλτρο
+		case 'H':          //Gia to filtro
 			if (filtra != 0) {
 				if (av == 'V' || av == 'v') {
 					if (Day == 'M') {
@@ -315,16 +315,16 @@ public:
 	}
 };
 
-class GAME                   //Κεντρικη κλαση που ελενχει τα παντα
+class GAME                   //Kentrikh klash pou elenxei ta panta.
 {
 private:
-	bool playing = true;     //Bool μεταβλητη αν το παιχνιδι ειναι σε εξελιξη η αν εχει τελειωσει
+	bool playing = true;     //Bool metablhth an to paixnidi einai se ekseliksh h an exei teleiwsei.
 public:
-	void Start() {           //Καλειται μολις το παιχνιδι ξεκιναει
+	void Start() {           //Kaleitai molis to paixnidi ksekinaei. 
 		cout << "                                    ###############################" << endl;
 		cout << "                                    ##### WELCOME TO GAME!!! ######" << endl;
 		cout << "                                    ###############################" << endl << endl;
-//		Sleep(3000);    //Sleep for 3 sec
+		Sleep(3000);    //Sleep for 3 sec
 		system("cls");
 		cout << "                                     CHOOSE YOUR AVATAR PLAYER..." << endl;
 		cout << "                              PRESS V FOR VAMPIRES OR W FOR THE WEREWOLFS" << endl << endl;
@@ -346,7 +346,7 @@ public:
 		else
 			cout << "                                    COOL YOU ARE ON VAMPIRES SIDE!" << endl;
 
-//	   Sleep(3000);
+	   Sleep(3000);
        system("cls");
 	   cout << "                                     GIVE THE HEIGHT OF THE MAP..." << endl;
 	   cin >>  HEIGHT;
@@ -363,28 +363,28 @@ public:
 		   Sleep(3000);
 		   exit(0);
 	   }
-//	   Sleep(3000);
+	   Sleep(3000);
 	   system("cls");
 	   cout << "                                      COOL YOUR GAME IS READY!" << endl;
-//	   Sleep(3000);
+	   Sleep(3000);
 	   system("cls");
 	   cout << "                                    U HAVE 1 FILTRO TO HELP YOUR TEAMMATES YGEIA" << endl;
 	   cout << "                                                 MOVE UP -> W"<< endl;
 	   cout << "                                   MOVE LEFT -> A             MOVE RIGHT -> D"<< endl;
 	   cout << "                                                 MOVE DOWN -> S                              ";
-//	   Sleep(5000);
+	   Sleep(5000);
 	   system("cls");
 	   cout << "                                                LETS PLAY!" << endl;
-//	   Sleep(3000);
+	   Sleep(3000);
 	   system("cls");
 	}
-	bool Collision(int x, int y, int x1, int y1) {     //Επιστεφει true αν δυο σημεια ειναι στο ιδιο σημειο.
+	bool Collision(int x, int y, int x1, int y1) {     //Epistefei true an duo shmeia einai sto ido shmeio.
 		if (x == y1 && y == x1)
 			return true;
 		else
 			return false;
 	}
-	bool SeimioObstacle(vector<OBSTACLES> Obstacle, int i, int j) {  //Τα σημεια των δεντρων και των ποταμων επιστεφει true αν ειναι ενα τετοιο σημειο.
+	bool SeimioObstacle(vector<OBSTACLES> Obstacle, int i, int j) {  //Ta shmeia twn dentrwn kai twn potamwn epistefei true an einai ena tetoio shmeio.
 		bool k = false;
 		for (OBSTACLES o : Obstacle) {
 			if (i == o.GetDentroX() && j == o.GetDentroY()) {
@@ -398,7 +398,7 @@ public:
 		}
 		return k;
 	}
-	bool SeimioWerewolf(vector<Werewolfs*> werewolfs, int i, int j) {        //Τα σημεια των werewolfs  επιστεφει true αν ειναι ενα τετοιο σημειο.
+	bool SeimioWerewolf(vector<Werewolfs*> werewolfs, int i, int j) {    //Ta shmeia werewolfs epistefei true an einai tetoio shmeio.
 		bool k = false;
 		for (Werewolfs* o : werewolfs) {
 				if (i == o->GetX(o) && j == o->GetY(o)) {
@@ -409,7 +409,7 @@ public:
 		}
 		return k;
 	}
-	bool SeimioVampire(vector<Vampires*> vampires, int i, int j) {   // Τα σημεια των vampires επιστεφει true αν ειναι ενα τετοιο σημειο.
+	bool SeimioVampire(vector<Vampires*> vampires, int i, int j) {   //Paromoia gia tous vampires kai edw.
 		bool k = false;
 		for (Vampires* o : vampires) {
 				if (i == o->GetX(o) && j == o->GetY(o)) {
@@ -421,7 +421,7 @@ public:
 		return k;
 	}
 
-	void TeamWerewolfs(vector<Werewolfs*> werewolfs) {   //Ελενχει αν θα υπαρξει βοιθεια αναμεσα σε παιχτες της ιδια ομαδας. 
+	void TeamWerewolfs(vector<Werewolfs*> werewolfs) {   //Elenxei an tha uparksei boitheia anamesa se sumpaiktes. 
 		int x1; int y1;
 		int x2; int y2;
 		for (Werewolfs* o : werewolfs) {
@@ -431,10 +431,10 @@ public:
 				x2 = w->GetX(w);
 				y2 = w->GetY(w);
 				if (o != w){                                                 
-					if (abs(x1 - x2) <= 1 && abs(y1 - y2) <= 1) {            //Απολυτη τιμη της διαφορας μικροτερου του 1.
+					if (abs(x1 - x2) <= 1 && abs(y1 - y2) <= 1) {            //Apoluth timh ths diaforas miktoterou tou 1.
 						if (o->GetYgeia(o) < 3 && w->GetIatriko(w) > 0) {
-							w->GiveIatriko(w);                               //Μειωνεται το ιατρικο αυτου που βοηθαει.
-							o->TakeIatriko(o);                                //Αυξανεται η υγεια αυτου που βοηθιεται.
+							w->GiveIatriko(w);                               //Meiwnetai toiatriko autou pou boithaei.
+							o->TakeIatriko(o);                                //Auksanetai h ugeia autounou pou boithietai.
 						}
 
 					}
@@ -442,7 +442,7 @@ public:
 		    }
 		}
 	}
-	void TeamVampires(vector<Vampires*> vampires) {           //Ελενχει αν θα υπαρξει βοιθεια αναμεσα σε παιχτες της ιδια ομαδας. 
+	void TeamVampires(vector<Vampires*> vampires) {           //Elenxei an tha uparksei boitheia anamesa se sumpaktes.
 		int x1; int y1;
 		int x2; int y2;
 		for (Vampires* o : vampires) {
@@ -452,10 +452,10 @@ public:
 				x2 = w->GetX(w);
 				y2 = w->GetY(w);
 				if (o != w) {                                                
-					if (abs(x1 - x2) <= 1 && abs(y1 - y2) <= 1) {            //Απολυτη τιμη της διαφορας μικροτερου του 1.
+					if (abs(x1 - x2) <= 1 && abs(y1 - y2) <= 1) {            
 						if (o->GetYgeia(o) < 5 && w->GetIatriko(w) > 0) {
-							w->GiveIatriko(w);                               //Μειωνεται το ιατρικο αυτου που βοηθαει.
-							o->TakeIatriko(o);                               //Αυξανεται η υγεια αυτου που βοηθιεται.
+							w->GiveIatriko(w);                              
+							o->TakeIatriko(o);                            
 						}
 
 					}
@@ -464,7 +464,7 @@ public:
 		}
 	}
 
-	void wVSv(vector<Werewolfs*> werewolfs, vector<Vampires*> vampires) {    //Συναρτηση που ελενχει της επιθεσεις.
+	void wVSv(vector<Werewolfs*> werewolfs, vector<Vampires*> vampires) {    //Sunarthsh pou elenxei ths epitheseis.
 		int x1; int y1;
 		int x2; int y2;
 		int damage;
@@ -473,73 +473,76 @@ public:
 				x1 = w->GetX(w);
 				y1 = w->GetY(w);
 				for (Vampires* v : vampires) {
-					if (w->GetX(w) != 999) {
+					if (v->GetX(v) != 999) {
 						x2 = v->GetX(v);
 						y2 = v->GetY(v);
 						if (abs(x1 - x2) <= 1 && abs(y1 - y2) <= 1) {
-							if (w->GetDinami(w) > v->GetDinami(v)) {           //Περιπτωση που επιτιθεται το werewolf.
+							if (w->GetDinami(w) > v->GetDinami(v)) {           //Periptwsh oti epitithetai werewolf.
 								if (v->GetAmina(v) > 0) {
-									damage = v->GetAmina(v) - w->GetDinami(w); //Το damage ειναι αναλογο της αμυνα του αμηνομενου και την δυναμη του επιτεθομενου
+									damage = v->GetAmina(v) - w->GetDinami(w); //To damage einai analogo ths amunas tou amunomenou kai thn dunamh tou epitethinomenou.
 									if (damage >= 0)
-										v->DamageAmina(v, w->GetDinami(w));    //Πλεον δεν υπαρχει αμυνα για μελλοντικη επιθεση που θα δεχθει.
+										v->DamageAmina(v, w->GetDinami(w));    //Pleon den uparxei amuna gia mellontikh epithesh.
 									else
-										v->DamageUgeia(v, abs(damage));        //Μειωνεται η υγεια οσο πρεπει αναλογα την υποληπομενη δυναμη.
+										v->DamageUgeia(v, abs(damage));        //Meiwnetai h ugeia oso prepei analoga thn upolhpomenh amuna.
 								}
 								else {
-									v->DamageUgeia(v, w->GetDinami(w));        //Αν δεν υπαρχει αμυνα τοτε η υγεια μειωνεται ακριβως οσο την δυναμη που δεχεται.
-								}          
-								if (v->GetYgeia(v) <= 0) {                     //Αν μηδενιστει η υγεια ο παικτης εξαγανιζεται.
-								    v->Lose(v);
+									v->DamageUgeia(v, w->GetDinami(w));        //An den uparxei amuna tote h ugeia meiwnetai akribws oso thn dunamh.							          
+								}
+
+								if (v->GetYgeia(v) <= 0) {                     //An mhdenistei h ugeia o paikths eksafanizetai.
+									v->Lose(v);
 									Alvamp--;
 								}
-								else {                                         //Μετα απο επιθεση αν ο παικτης αντεξει τοτε θα προσπαθησει να φυγει.
+								else {                                         //Meta apo epithesh an o paikths anteksei tha prospathisei na fugei.
 									v->RandomDirection(v);
 									v->RandomMovement(v);
 								}
 							}
-							else if (v->GetDinami(v) > w->GetDinami(w)) {     //Περιπτωση που επιτιθεται το vampire.
+							else if (v->GetDinami(v) > w->GetDinami(w)) {     //Periptwsh pou epitithetai to vampire ginontai ta idia pragmata.
 								if (w->GetAmina(w) > 0) {
-									damage = w->GetAmina(w) - v->GetDinami(v); //Τo damage ειναι αναλογο της αμυνας του αμυνομενου και την δυναμη αυτου που επιτιθεται.
+									damage = w->GetAmina(w) - v->GetDinami(v);
 									if (damage >= 0)
-										w->DamageAmina(w, v->GetDinami(v));    //Πλεον δεν υπαρχει αμυνα για μελλοντικη επιθεση.
+										w->DamageAmina(w, v->GetDinami(v));
 									else
-										w->DamageUgeia(w, abs(damage));       //Απομενει αμυνα για μελλοντικη επιθεση.
+										w->DamageUgeia(w, abs(damage));
 								}
 								else {
-									w->DamageUgeia(w, v->GetDinami(v));       //Αν δεν υπαρχει αμηνα οποτε μειςνεται η αμηνα οσο την δυναμη του.
+									w->DamageUgeia(w, v->GetDinami(v));
 								}
-								if (w->GetYgeia(w) <= 0) {                    //Αν μηδενιστει η υγεια τοτε ο παικτησ εξαφανιζεται απο τον χαρτη.
+								if (w->GetYgeia(w) <= 0) {
 									w->Lose(w);
 									Alwere--;
 								}
-								else { 
-									w->RandomDirection(w);                  //Αλλιωσ αν απομεινη υγεια τοτε ο παικτης προσπαθει να φυγει.
+								else {
+									w->RandomDirection(w);
 									w->RandomMovement(w);
 								}
 							}
-							else {                                             //Οταν εχουν ιδια δυναμη κανουμε μια παραλλαγη.
-								                                          //Χανουν και η δυο απο μια μοναδα στην αμυνα αλλιως αν δεν εχουν τοτε μια μοναδα υγεια.
+							else {                                             //Otan exoun idia dunamh kanoume mia parallagh.
+								                                 //Xanoun kai h duo apo mia monada th amunas alliws an den exoun apo mia monada apo thn ugeia.
 								if (w->GetAmina(w) > 0) {
 									w->DamageAmina(w, 1);
 								}
 								else {
 									w->DamageUgeia(w, 1);
 								}
-								  if (w->GetYgeia(w) <= 0) {
+								if (w->GetYgeia(w) <= 0) {
 									w->Lose(w);
 									Alwere--;
-								  }
+								}
 								if (v->GetAmina(v) > 0) {
 									v->DamageAmina(v, 1);
 								}
 								else {
 									v->DamageUgeia(v, 1);
 								}
-								  if (v->GetYgeia(v) <= 0) {
+								if (v->GetYgeia(v) <= 0) {
 									v->Lose(v);
-									Alwere--;
-								  }
+									Alvamp--;
+								}
+
 							}
+
 						}
 					}
 				}
@@ -547,20 +550,21 @@ public:
 		}
 	}
 
+
 	void draw()
 	{
-		int k = 0;                        //Μεταβλητη που μετα απο καποιες επαναληψεις αλλαζει η μερα σε νυχτα.
+		int k = 0;                        //Metablith pou meta apo kapoies epanaleipseis-loop allazei thn nuxta se mera.
 		Avatar Av(HEIGHT/2, WIDTH/2);
 		FILTRA Filtro(rand() % HEIGHT + 1, rand() % WIDTH + 1, true);
 
-		vector<OBSTACLES> Obstacles;     //Vector απο τα  δεντρα κ τα ποταμια.
+		vector<OBSTACLES> Obstacles;     //Vector apo denta k potamia. 
 		for (int i = 0; i <= 1 + (HEIGHT + WIDTH)/20; i++) { 
 			OBSTACLES obstacles(rand() % HEIGHT - 1 , rand() % WIDTH - 1 , rand() % HEIGHT - 1 , rand() % WIDTH - 1 ); 
 			Obstacles.push_back(obstacles);
 		}
 
-		vector<Werewolfs*> werewolfs;  //Vector απο werewolfs.
-		vector<Vampires*> vampires;     //Vector απο vampires.
+		vector<Werewolfs*> werewolfs;  //Vector apo werewolfs.
+		vector<Vampires*> vampires;     //Vector apo vampires.
 
 		for (int i = 1; i <= (HEIGHT+WIDTH) / 15; i++) {
 			Werewolfs* W = new Werewolfs(rand() % (WIDTH - 1) + 1, rand() % (HEIGHT - 1) + 1);			                                                                  
@@ -592,9 +596,9 @@ public:
 							cout << '!';
 						}
 						else if (Collision(Av.GetX(), Av.GetY(), Filtro.GetX(), Filtro.GetY())) {
-							Filtro.ChangeFltr(false);                     //Change φιλτρο πλεον δεν υπαρχει φιλτρο στον χαρτη
+							Filtro.ChangeFltr(false);                     //Change φιλτρο pleon den uparxei filtro ston xarth.
 							Filtro.DestroyFiltro();
-							Av.TakeFiltro();                              //Αυξανουμε το φιλτρο κατα 1.
+							Av.TakeFiltro();                              //Auksanoume filtro kata 1.        
 						}	
 						else if (SeimioObstacle(Obstacles, i, j)) {     
 							continue;
@@ -634,7 +638,7 @@ public:
 				TeamVampires(vampires);
 				wVSv(werewolfs, vampires);
 
-				for (Werewolfs* o : werewolfs) {                             //Αλλαζει της κινισεις των werewolfs.
+				for (Werewolfs* o : werewolfs) {                             //Allazei ths kiniseis twn werewolfs.
 					if (o->GetX(o) != 999) {
 						o->RandomDirection(o);
 						int x = o->GetX(o); int y = o->GetY(o); Direction d = o->GetDirection(o);
@@ -649,7 +653,7 @@ public:
 						}
 					}
 				}
-				for (Vampires* o : vampires) {                         //Αλλαζει της κινισεις των vampires.
+				for (Vampires* o : vampires) {                         //Allazei ths kiniseis twn vampires. 
 					if (o->GetX(o) != 999) {
 						o->RandomDirection(o);
 						int x = o->GetX(o); int y = o->GetY(o); Direction d = o->GetDirection(o);
@@ -670,10 +674,10 @@ public:
 					  Av.Movement(_getch());
 				}
 				int nextFiltra = Av.GetFiltra();
-				if (prevFiltra - nextFiltra == 1) {    //Βλεπουμε αν χρησιμοποιηθικε φιλτρο
+				if (prevFiltra - nextFiltra == 1) {    //Blepoume an xrhsimopoihthike filtro. 
 					if (Av.GetTeam() == 'W' || Av.GetTeam() == 'w') {
 						for (Werewolfs* o : werewolfs) {
-							o->TakeIatriko(o);                         //Αυξανουμε την υγεια των παιχτων μετα απο χρηση φιλτρου.
+							o->TakeIatriko(o);                         //Auksanoume thn ugeia twn paiktwn meta apo xrhsh filtrou. 
 						}
 					}
 					else if (Av.GetTeam() == 'V' || Av.GetTeam() == 'v') {
@@ -704,6 +708,24 @@ public:
 					cout << "PRESS (H) TO USE THE FILTRA " << "(!)" << endl;
 				cout << "FILTRA TO USE: " << Av.GetFiltra() << endl << endl;
 				cout << "PRESS (P) TO PAUSE THA GAME " << endl;
+
+				
+				for (Vampires* o : vampires) {
+					cout << "Vampires: ";
+					cout << "UGEIA: " << o->GetYgeia(o);
+					cout << " AMINA: " << o->GetAmina(o);
+					cout << " IATRIKO: " << o->GetIatriko(o);
+					cout << " DIANAMI: " << o->GetDinami(o) << endl;
+				}
+				
+				for (Werewolfs* o : werewolfs) {
+					cout << "Werewolfs: ";
+					cout << "UGEIA: " << o->GetYgeia(o);
+					cout << " AMINA: " << o->GetAmina(o);
+					cout << " IATRIKO: " << o->GetIatriko(o);
+					cout << " DIANAMI: " << o->GetDinami(o) << endl;
+				}
+
 
 				if (Alvamp == 0) {
 					playing = false;
