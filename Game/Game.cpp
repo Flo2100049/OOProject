@@ -7,7 +7,7 @@ using namespace std;
 enum Direction  { STOP = 0, LEFT = 1, RIGHT = 2, UP = 3, DOWN = 4, UPLEFT = 5, UPRIGHT = 6, DOWNLEFT = 7, DOWNRIGHT = 8 };  //Για την τυχαια κινιση των vampires και werewolfs.
 
 char av, Day = 'M';            //Global metablhtes. -av deixnei thn omada tou paikth kai -Day δειχνει την mera kai thn nuxta.
-int WIDTH, HEIGHT;             //Global metablhtes. -WIDTH einai to plato tou xar kai -HEIGHT einai to upsos tou xarth.
+int WIDTH, HEIGHT;             //Global metablhtes. -WIDTH einai to plato tou xarth kai -HEIGHT einai to upsos tou xarth.
 int  Alvamp, Alwere;           //Global metablhtes. -Alvamp deixnei to plhthos twn vampires kai -ALwere deixnei to plhthos twn werewolfs.
 
 
