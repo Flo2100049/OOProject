@@ -1,4 +1,5 @@
 # OOProject
+# Object Oriented game-project 2nd year uni
 
 1ο μελος ομαδας -Ονομα- ΦΛΟΡΙΑΝ -Επιθετο- KAMAΪ -Α.Μ- 1115202100049 -Εmail- sdi2100049@di.uoa.gr
 
